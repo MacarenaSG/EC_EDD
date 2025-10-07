@@ -7,14 +7,32 @@ import src.models.Venta;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Clase principal del sistema de gestión de ventas de sombreros.
+ * Proporciona una interfaz de consola para gestionar clientes, sombreros y ventas.
+ *
+ * @author MacarenaSG
+ * @version 1.0
+ * @since 2025
+ */
 public class Main {
 
-    // Listas de trabajo
+    /** Lista que almacena todos los clientes registrados en el sistema */
     static ArrayList<Cliente> clientes = new ArrayList<>();
+
+    /** Lista que almacena todos los sombreros disponibles en el inventario */
     static ArrayList<Sombrero> sombreros = new ArrayList<>();
+
+    /** Lista que almacena todas las ventas realizadas */
     static ArrayList<Venta> ventas = new ArrayList<>();
 
-    // MENÚ PRINCIPAL (clientes + sombreros + ventas)
+    /**
+     * Método principal que inicia la aplicación y muestra el menú principal.
+     * Permite al usuario navegar entre las diferentes opciones de gestión:
+     * clientes, sombreros, ventas y visualización de ventas.
+     *
+     * @param args Argumentos de línea de comandos (no utilizados)
+     */
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
@@ -49,9 +67,13 @@ public class Main {
         } while (opcion != 5);
     }
 
-    // ---------------------------
-    // GESTIÓN DE CLIENTES
-    // ---------------------------
+    /**
+     * Gestiona todas las operaciones relacionadas con clientes.
+     * Proporciona un submenú con opciones para añadir, eliminar, modificar
+     * y listar clientes.
+     *
+     * @param sc Scanner para leer la entrada del usuario
+     */
     static void gestionarClientes(Scanner sc) {
 
         int opc;
@@ -177,6 +199,11 @@ public class Main {
         } while (opc != 5);
     }
 
+    /**
+     * Muestra un listado completo de todos los clientes registrados.
+     * Si no hay clientes registrados, muestra un mensaje informativo.
+     * Cada cliente se muestra con un número de orden y todos sus datos.
+     */
     static void listarClientes() {
         if (clientes.isEmpty()) {
             System.out.println("No hay clientes registrados.");
@@ -194,9 +221,13 @@ public class Main {
         }
     }
 
-    // ---------------------------
-    // GESTIÓN DE SOMBREROS
-    // ---------------------------
+    /**
+     * Gestiona todas las operaciones relacionadas con sombreros.
+     * Proporciona un submenú con opciones para añadir, eliminar, modificar
+     * y listar sombreros del inventario.
+     *
+     * @param sc Scanner para leer la entrada del usuario
+     */
     static void gestionarSombreros(Scanner sc) {
 
         int opc;
@@ -326,6 +357,11 @@ public class Main {
         } while (opc != 5);
     }
 
+    /**
+     * Muestra un listado completo de todos los sombreros en el inventario.
+     * Si no hay sombreros registrados, muestra un mensaje informativo.
+     * Cada sombrero se muestra con un número de orden y todos sus atributos.
+     */
     static void listarSombreros() {
         if (sombreros.isEmpty()) {
             System.out.println("No hay sombreros registrados.");
@@ -342,9 +378,14 @@ public class Main {
         }
     }
 
-    // ---------------------------
-    // VENTAS
-    // ---------------------------
+    /**
+     * Procesa una nueva venta en el sistema.
+     * Permite seleccionar un cliente existente y añadir uno o más sombreros
+     * a la venta. Valida que existan clientes y sombreros antes de proceder.
+     * La venta se registra con la fecha actual y se añade a la lista de ventas.
+     *
+     * @param sc Scanner para leer la entrada del usuario
+     */
     static void realizarVenta(Scanner sc) {
         // Comprobaciones previas
         if (clientes.isEmpty()) {
@@ -407,6 +448,12 @@ public class Main {
         System.out.println("Venta registrada correctamente.");
     }
 
+    /**
+     * Muestra un informe detallado de todas las ventas realizadas.
+     * Para cada venta muestra: número de venta, cliente, fecha,
+     * listado de sombreros comprados y el importe total.
+     * Si no hay ventas registradas, muestra un mensaje informativo.
+     */
     static void mostrarVentas() {
         System.out.println("\n=== LISTADO DE VENTAS REGISTRADAS ===");
 
