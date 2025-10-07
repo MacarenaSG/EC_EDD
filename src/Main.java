@@ -1,16 +1,17 @@
 package src;
 
 import src.models.Cliente;
-
+import src.models.Sombrero;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
 
-    // Solo clientes
+    // Listas de trabajo
     static ArrayList<Cliente> clientes = new ArrayList<>();
+    static ArrayList<Sombrero> sombreros = new ArrayList<>();
 
-    // MENÚ PRINCIPAL (solo clientes)
+    // MENÚ PRINCIPAL (clientes + sombreros)
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
@@ -19,7 +20,8 @@ public class Main {
         do {
             System.out.println("\n=== MENÚ PRINCIPAL ===");
             System.out.println("1. Gestión de clientes");
-            System.out.println("2. Salir");
+            System.out.println("2. Gestión de sombreros");
+            System.out.println("3. Salir");
             System.out.print("Elige una opción: ");
 
             while (!sc.hasNextInt()) {
@@ -32,14 +34,17 @@ public class Main {
 
             switch (opcion) {
                 case 1 -> gestionarClientes(sc);
-                case 2 -> System.out.println("Gracias por su visita... ¡Hasta pronto!");
+                case 2 -> gestionarSombreros(sc);
+                case 3 -> System.out.println("Gracias por su visita... ¡Hasta pronto!");
                 default -> System.out.println("Opción no válida. Intenta de nuevo.");
             }
 
-        } while (opcion != 2);
+        } while (opcion != 3);
     }
 
+    // ---------------------------
     // GESTIÓN DE CLIENTES
+    // ---------------------------
     static void gestionarClientes(Scanner sc) {
 
         int opc;
@@ -165,7 +170,6 @@ public class Main {
         } while (opc != 5);
     }
 
-    // LISTADO DE CLIENTES
     static void listarClientes() {
         if (clientes.isEmpty()) {
             System.out.println("No hay clientes registrados.");
@@ -179,6 +183,154 @@ public class Main {
             System.out.println("   DNI: " + c.getDni());
             System.out.println("   Teléfono: " + c.getTelefono());
             System.out.println("   Email: " + c.getEmail());
+            System.out.println("-------------------------------");
+        }
+    }
+
+    // ---------------------------
+    // GESTIÓN DE SOMBREROS
+    // ---------------------------
+    static void gestionarSombreros(Scanner sc) {
+
+        int opc;
+
+        do {
+            System.out.println("\n-- GESTIÓN DE SOMBREROS --");
+            System.out.println("1. Añadir sombrero");
+            System.out.println("2. Eliminar sombrero");
+            System.out.println("3. Modificar datos de un sombrero");
+            System.out.println("4. Mostrar listado de sombreros");
+            System.out.println("5. Volver al menú principal");
+            System.out.print("Elige una opción: ");
+
+            while (!sc.hasNextInt()) {
+                sc.nextLine();
+                System.out.print("Por favor, introduce un número válido: ");
+            }
+            opc = sc.nextInt();
+            sc.nextLine();
+
+            switch (opc) {
+                case 1 -> {
+                    System.out.print("Tipo de sombrero: ");
+                    String tipo = sc.nextLine();
+                    System.out.print("Color: ");
+                    String color = sc.nextLine();
+
+                    System.out.print("Precio: ");
+                    while (!sc.hasNextDouble()) {
+                        sc.nextLine();
+                        System.out.print("Por favor, introduce un precio válido (número): ");
+                    }
+                    double precio = sc.nextDouble();
+                    sc.nextLine();
+
+                    sombreros.add(new Sombrero(tipo, color, precio));
+                    System.out.println("Sombrero añadido correctamente.");
+                }
+
+                case 2 -> {
+                    listarSombreros();
+                    if (sombreros.isEmpty()) break;
+
+                    System.out.print("Número del sombrero que se desea dar de baja: ");
+                    while (!sc.hasNextInt()) {
+                        sc.nextLine();
+                        System.out.print("Por favor, introduce un número válido: ");
+                    }
+                    int posBorrar = sc.nextInt();
+                    sc.nextLine();
+
+                    posBorrar = posBorrar - 1;
+                    if (posBorrar >= 0 && posBorrar < sombreros.size()) {
+                        sombreros.remove(posBorrar);
+                        System.out.println("Sombrero eliminado correctamente.");
+                    } else {
+                        System.out.println("Número inválido.");
+                    }
+                }
+
+                case 3 -> {
+                    listarSombreros();
+                    if (sombreros.isEmpty()) break;
+
+                    System.out.print("Número del sombrero que quieres modificar: ");
+                    while (!sc.hasNextInt()) {
+                        sc.nextLine();
+                        System.out.print("Por favor, introduce un número válido: ");
+                    }
+                    int posModificar = sc.nextInt();
+                    sc.nextLine();
+
+                    posModificar = posModificar - 1;
+                    if (posModificar >= 0 && posModificar < sombreros.size()) {
+                        Sombrero s = sombreros.get(posModificar);
+
+                        System.out.println("\nSombrero seleccionado: " + s.getTipo());
+                        System.out.println("¿Qué deseas modificar?");
+                        System.out.println("1. Tipo");
+                        System.out.println("2. Color");
+                        System.out.println("3. Precio");
+                        System.out.print("Elige una opción: ");
+
+                        while (!sc.hasNextInt()) {
+                            sc.nextLine();
+                            System.out.print("Por favor, introduce un número válido: ");
+                        }
+                        int opc2 = sc.nextInt();
+                        sc.nextLine();
+
+                        switch (opc2) {
+                            case 1 -> {
+                                System.out.print("Nuevo tipo: ");
+                                s.setTipo(sc.nextLine());
+                                System.out.println("Tipo actualizado correctamente.");
+                            }
+                            case 2 -> {
+                                System.out.print("Nuevo color: ");
+                                s.setColor(sc.nextLine());
+                                System.out.println("Color actualizado correctamente.");
+                            }
+                            case 3 -> {
+                                System.out.print("Nuevo precio: ");
+                                while (!sc.hasNextDouble()) {
+                                    sc.nextLine();
+                                    System.out.print("Por favor, introduce un precio válido (número): ");
+                                }
+                                double nuevoPrecio = sc.nextDouble();
+                                sc.nextLine();
+                                s.setPrecio(nuevoPrecio);
+                                System.out.println("Precio actualizado correctamente.");
+                            }
+                            default -> System.out.println("Opción no válida.");
+                        }
+                    } else {
+                        System.out.println("Número inválido.");
+                    }
+                }
+
+                case 4 -> listarSombreros();
+
+                case 5 -> System.out.println("Volviendo al menú principal...");
+
+                default -> System.out.println("Opción no válida. Inténtalo de nuevo.");
+            }
+
+        } while (opc != 5);
+    }
+
+    static void listarSombreros() {
+        if (sombreros.isEmpty()) {
+            System.out.println("No hay sombreros registrados.");
+            return;
+        }
+
+        System.out.println("\n--- LISTADO DE SOMBREROS ---");
+        for (int i = 0; i < sombreros.size(); i++) {
+            Sombrero s = sombreros.get(i);
+            System.out.println((i + 1) + ". Tipo: " + s.getTipo());
+            System.out.println("   Color: " + s.getColor());
+            System.out.println("   Precio: " + s.getPrecio());
             System.out.println("-------------------------------");
         }
     }
