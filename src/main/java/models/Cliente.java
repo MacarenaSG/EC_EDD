@@ -1,4 +1,4 @@
-package src.models;
+package models;
 
 /**
  * Representa un cliente del sistema de gestión de ventas de sombreros.

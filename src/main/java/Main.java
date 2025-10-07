@@ -1,8 +1,7 @@
-package src;
 
-import src.models.Cliente;
-import src.models.Sombrero;
-import src.models.Venta;
+import models.Cliente;
+import models.Sombrero;
+import models.Venta;
 
 import java.util.ArrayList;
 import java.util.Scanner;
