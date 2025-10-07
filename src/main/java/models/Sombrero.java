@@ -1,4 +1,4 @@
-package src.models;
+package models;
 
 /**
  * Representa un sombrero disponible en el inventario de la tienda.
