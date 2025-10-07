@@ -2,6 +2,8 @@ package src;
 
 import src.models.Cliente;
 import src.models.Sombrero;
+import src.models.Venta;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -10,8 +12,9 @@ public class Main {
     // Listas de trabajo
     static ArrayList<Cliente> clientes = new ArrayList<>();
     static ArrayList<Sombrero> sombreros = new ArrayList<>();
+    static ArrayList<Venta> ventas = new ArrayList<>();
 
-    // MENÚ PRINCIPAL (clientes + sombreros)
+    // MENÚ PRINCIPAL (clientes + sombreros + ventas)
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
@@ -21,7 +24,9 @@ public class Main {
             System.out.println("\n=== MENÚ PRINCIPAL ===");
             System.out.println("1. Gestión de clientes");
             System.out.println("2. Gestión de sombreros");
-            System.out.println("3. Salir");
+            System.out.println("3. Realizar venta");
+            System.out.println("4. Mostrar ventas");
+            System.out.println("5. Salir");
             System.out.print("Elige una opción: ");
 
             while (!sc.hasNextInt()) {
@@ -35,11 +40,13 @@ public class Main {
             switch (opcion) {
                 case 1 -> gestionarClientes(sc);
                 case 2 -> gestionarSombreros(sc);
-                case 3 -> System.out.println("Gracias por su visita... ¡Hasta pronto!");
+                case 3 -> realizarVenta(sc);
+                case 4 -> mostrarVentas();
+                case 5 -> System.out.println("Gracias por su visita... ¡Hasta pronto!");
                 default -> System.out.println("Opción no válida. Intenta de nuevo.");
             }
 
-        } while (opcion != 3);
+        } while (opcion != 5);
     }
 
     // ---------------------------
@@ -331,6 +338,94 @@ public class Main {
             System.out.println((i + 1) + ". Tipo: " + s.getTipo());
             System.out.println("   Color: " + s.getColor());
             System.out.println("   Precio: " + s.getPrecio());
+            System.out.println("-------------------------------");
+        }
+    }
+
+    // ---------------------------
+    // VENTAS
+    // ---------------------------
+    static void realizarVenta(Scanner sc) {
+        // Comprobaciones previas
+        if (clientes.isEmpty()) {
+            System.out.println("Primero debes registrar clientes antes de realizar una venta.");
+            return;
+        }
+        if (sombreros.isEmpty()) {
+            System.out.println("Primero debes registrar sombreros antes de realizar una venta.");
+            return;
+        }
+
+        // Seleccionar cliente
+        System.out.println("\n=== SELECCIONAR CLIENTE ===");
+        listarClientes();
+        System.out.print("Introduce el número del cliente: ");
+        while (!sc.hasNextInt()) {
+            sc.nextLine();
+            System.out.print("Por favor, introduce un número válido: ");
+        }
+        int numeroCliente = sc.nextInt();
+        sc.nextLine();
+
+        if (numeroCliente <= 0 || numeroCliente > clientes.size()) {
+            System.out.println("Número de cliente inválido.");
+            return;
+        }
+        Cliente clienteSeleccionado = clientes.get(numeroCliente - 1);
+
+        // Crear venta
+        Venta nuevaVenta = new Venta(clienteSeleccionado);
+
+        // Añadir sombreros a la venta
+        boolean seguirAnadiendo = true;
+        while (seguirAnadiendo) {
+            System.out.println("\n=== SELECCIONAR SOMBRERO PARA AÑADIR ===");
+            listarSombreros();
+            System.out.print("Introduce el número del sombrero que deseas añadir: ");
+            while (!sc.hasNextInt()) {
+                sc.nextLine();
+                System.out.print("Por favor, introduce un número válido: ");
+            }
+            int numeroSombrero = sc.nextInt();
+            sc.nextLine();
+
+            if (numeroSombrero > 0 && numeroSombrero <= sombreros.size()) {
+                Sombrero sombreroSeleccionado = sombreros.get(numeroSombrero - 1);
+                nuevaVenta.addSombrero(sombreroSeleccionado);
+                System.out.println("Sombrero añadido correctamente a la venta.");
+            } else {
+                System.out.println("Número de sombrero inválido.");
+            }
+
+            System.out.print("¿Deseas añadir otro sombrero? (s/n): ");
+            String respuesta = sc.nextLine();
+            seguirAnadiendo = respuesta.equalsIgnoreCase("s");
+        }
+
+        // Guardar venta
+        ventas.add(nuevaVenta);
+        System.out.println("Venta registrada correctamente.");
+    }
+
+    static void mostrarVentas() {
+        System.out.println("\n=== LISTADO DE VENTAS REGISTRADAS ===");
+
+        if (ventas.isEmpty()) {
+            System.out.println("No hay ventas registradas actualmente.");
+            return;
+        }
+
+        for (int i = 0; i < ventas.size(); i++) {
+            Venta v = ventas.get(i);
+
+            System.out.println("\nVenta Nº " + (i + 1));
+            System.out.println("Cliente: " + v.getCliente().getNombre());
+            System.out.println("Fecha: " + v.getFecha());
+            System.out.println("Sombreros comprados:");
+            for (Sombrero s : v.getLineasDeVenta()) {
+                System.out.println("  - " + s.getTipo() + " (" + s.getColor() + "), " + s.getPrecio() + "€");
+            }
+            System.out.println("Importe total: " + v.calcularTotal() + "€");
             System.out.println("-------------------------------");
         }
     }
