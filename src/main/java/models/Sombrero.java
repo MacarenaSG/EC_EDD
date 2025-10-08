@@ -19,17 +19,22 @@ public class Sombrero {
     /** Precio del sombrero en euros */
     private double precio;
 
+    /** Stock de sombreros */
+    private int stock;
+
     /**
      * Constructor que crea un nuevo sombrero con sus características básicas.
      *
      * @param tipo Tipo o modelo del sombrero
      * @param color Color del sombrero
      * @param precio Precio del sombrero en euros
+     * @param stock Stock de sombreros
      */
-    public Sombrero(String tipo, String color, double precio) {
+    public Sombrero(String tipo, String color, double precio, int stock) {
         this.tipo = tipo;
         this.color = color;
         this.precio = precio;
+        this.stock = stock;
     }
 
     /**
@@ -85,5 +90,19 @@ public class Sombrero {
     public void setPrecio(double precio) {
         this.precio = precio;
     }
+
+    /**
+     * Obtiene el stock de sombreros.
+     *
+     * @return El stock de sombreros
+     */
+    public int getStock() { return stock; }
+
+    /**
+     * Establece el stock sombrero.
+     *
+     * @param stock El nuevo stock de sombreros
+     */
+    public void setStock(int stock) { this.stock = stock; }
 
 }

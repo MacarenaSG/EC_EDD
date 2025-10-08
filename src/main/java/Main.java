@@ -4,6 +4,7 @@ import models.Sombrero;
 import models.Venta;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Scanner;
 
 /**
@@ -211,6 +212,9 @@ public class Main {
             return;
         }
 
+        // Ordenar por nombre
+        clientes.sort(Comparator.comparing(Cliente::getNombre));
+
         System.out.println("\n--- LISTADO DE CLIENTES ---");
         for (int i = 0; i < clientes.size(); i++) {
             Cliente c = clientes.get(i);
@@ -264,7 +268,15 @@ public class Main {
                     double precio = sc.nextDouble();
                     sc.nextLine();
 
-                    sombreros.add(new Sombrero(tipo, color, precio));
+                    System.out.print("Stock (cantidad disponible): ");
+                    while (!sc.hasNextInt()) {
+                        sc.nextLine();
+                        System.out.print("Por favor, introduce un número entero válido: ");
+                    }
+                    int stock = sc.nextInt();
+                    sc.nextLine();
+
+                    sombreros.add(new Sombrero(tipo, color, precio, stock));
                     System.out.println("Sombrero añadido correctamente.");
                 }
 
@@ -375,6 +387,7 @@ public class Main {
             System.out.println((i + 1) + ". Tipo: " + s.getTipo());
             System.out.println("   Color: " + s.getColor());
             System.out.println("   Precio: " + s.getPrecio());
+            System.out.println("   Stock disponible: " + s.getStock());
             System.out.println("-------------------------------");
         }
     }
@@ -433,11 +446,19 @@ public class Main {
 
             if (numeroSombrero > 0 && numeroSombrero <= sombreros.size()) {
                 Sombrero sombreroSeleccionado = sombreros.get(numeroSombrero - 1);
-                nuevaVenta.addSombrero(sombreroSeleccionado);
-                System.out.println("Sombrero añadido correctamente a la venta.");
+
+                if (sombreroSeleccionado.getStock() > 0) {
+                    nuevaVenta.addSombrero(sombreroSeleccionado);
+                    sombreroSeleccionado.setStock(sombreroSeleccionado.getStock() - 1); // Disminuir stock
+                    System.out.println("Sombrero añadido correctamente a la venta.");
+                } else {
+                    System.out.println("Este sombrero está agotado. No se puede añadir.");
+                }
+
             } else {
                 System.out.println("Número de sombrero inválido.");
             }
+
 
             System.out.print("¿Deseas añadir otro sombrero? (s/n): ");
             String respuesta = sc.nextLine();
