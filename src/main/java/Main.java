@@ -4,6 +4,7 @@ import models.Sombrero;
 import models.Venta;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Scanner;
 
 /**
@@ -210,6 +211,9 @@ public class Main {
             System.out.println("No hay clientes registrados.");
             return;
         }
+
+        // Ordenar por nombre
+        clientes.sort(Comparator.comparing(Cliente::getNombre));
 
         System.out.println("\n--- LISTADO DE CLIENTES ---");
         for (int i = 0; i < clientes.size(); i++) {
