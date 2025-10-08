@@ -43,7 +43,8 @@ public class Main {
             System.out.println("2. Gestión de sombreros");
             System.out.println("3. Realizar venta");
             System.out.println("4. Mostrar ventas");
-            System.out.println("5. Salir");
+            System.out.println("5. Mostrar importe total de ventas por clientes");
+            System.out.println("6. Salir");
             System.out.print("Elige una opción: ");
 
             while (!sc.hasNextInt()) {
@@ -59,11 +60,12 @@ public class Main {
                 case 2 -> gestionarSombreros(sc);
                 case 3 -> realizarVenta(sc);
                 case 4 -> mostrarVentas();
-                case 5 -> System.out.println("Gracias por su visita... ¡Hasta pronto!");
+                case 5 -> mostrarTotalPorCliente(sc);
+                case 6 -> System.out.println("Gracias por su visita... ¡Hasta pronto!");
                 default -> System.out.println("Opción no válida. Intenta de nuevo.");
             }
 
-        } while (opcion != 5);
+        } while (opcion != 6);
     }
 
     /**
@@ -475,4 +477,52 @@ public class Main {
             System.out.println("-------------------------------");
         }
     }
+
+    /**
+     * Muestra cuánto dinero ha gastado un cliente en total.
+     * El usuario elige un cliente y el sistema suma todas las ventas que ha hecho ese cliente.
+     *
+     */
+    static void mostrarTotalPorCliente(Scanner sc) {
+        // Comprobamos si hay clientes registrados
+        if (clientes.isEmpty()) {
+            System.out.println("No hay clientes registrados.");
+            return;
+        }
+
+        // Mostramos la lista de clientes
+        System.out.println("\n=== TOTAL DE VENTAS POR CLIENTE ===");
+        listarClientes();  // Usamos el método creado para mostrar los clientes
+
+        // Pedimos al usuario que elija un cliente por número
+        System.out.print("Introduce el número del cliente: ");
+        while (!sc.hasNextInt()) {
+            sc.nextLine();
+            System.out.print("Por favor, introduce un número válido: ");
+        }
+        int numeroCliente = sc.nextInt();
+        sc.nextLine();
+
+        // Comprobamos si el número introducido es válido
+        if (numeroCliente <= 0 || numeroCliente > clientes.size()) {
+            System.out.println("Número de cliente inválido.");
+            return;
+        }
+
+        // Obtenemos el cliente elegido
+        Cliente cliente = clientes.get(numeroCliente - 1);
+        double total = 0;
+
+        // Recorremos todas las ventas y sumamos las que pertenecen a ese cliente
+        for (Venta venta : ventas) {
+            if (venta.getCliente().equals(cliente)) {
+                total += venta.calcularTotal();
+            }
+        }
+
+        // Mostramos el resultado final
+        System.out.println("Cliente: " + cliente.getNombre());
+        System.out.println("Total gastado en compras: " + total + "€");
+    }
+
 }
