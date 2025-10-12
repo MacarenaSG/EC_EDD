@@ -45,7 +45,8 @@ public class Main {
             System.out.println("3. Realizar venta");
             System.out.println("4. Mostrar ventas");
             System.out.println("5. Mostrar importe total de ventas por clientes");
-            System.out.println("6. Salir");
+            System.out.println("6. Comentarios para los profes");
+            System.out.println("7. Salir");
             System.out.print("Elige una opción: ");
 
             while (!sc.hasNextInt()) {
@@ -62,11 +63,12 @@ public class Main {
                 case 3 -> realizarVenta(sc);
                 case 4 -> mostrarVentas();
                 case 5 -> mostrarTotalPorCliente(sc);
-                case 6 -> System.out.println("Gracias por su visita... ¡Hasta pronto!");
+                case 6 -> mostrarComentarios(sc);
+                case 7 -> System.out.println("Gracias por su visita... ¡Hasta pronto!");
                 default -> System.out.println("Opción no válida. Intenta de nuevo.");
             }
 
-        } while (opcion != 6);
+        } while (opcion != 7);
     }
 
     /**
@@ -544,6 +546,138 @@ public class Main {
         // Mostramos el resultado final
         System.out.println("Cliente: " + cliente.getNombre());
         System.out.println("Total gastado en compras: " + total + "€");
+    }
+
+
+    /**
+     * Muestra un submenú de comentarios para los profesores.
+     *
+     * @param sc Scanner para leer la entrada del usuario
+     */
+    static void mostrarComentarios(Scanner sc) {
+        int opcion;
+
+        do {
+            System.out.println("\n--- COMENTARIOS PARA LOS PROFES ---");
+            System.out.println("1. José");
+            System.out.println("2. Jordi");
+            System.out.println("3. Volver al menú principal");
+            System.out.print("Elige una opción: ");
+
+            while (!sc.hasNextInt()) {
+                sc.nextLine();
+                System.out.print("Por favor, introduce un número válido: ");
+            }
+
+            opcion = sc.nextInt();
+            sc.nextLine();  // limpiar entrada
+
+            switch (opcion) {
+                case 1 ->comentariosJose(sc);
+                case 2 ->comentariosJordi(sc);
+                case 3 -> System.out.println("Volviendo al menú principal...");
+                default -> System.out.println("Opción no válida. Intenta de nuevo.");
+            }
+
+        } while (opcion != 3);
+    }
+
+    /**
+     * Submenú de comentarios para el profesor José.
+     * Permite elegir entre comentario sobre realizar ventas o mostrar el total por cliente.
+     *
+     * @param sc Scanner para leer la entrada del usuario
+     */
+    static void comentariosJose(Scanner sc) {
+        int opcion;
+
+        do {
+            System.out.println("\n--- COMENTARIOS PARA JOSÉ ---");
+            System.out.println("1. Funcionalidad de realizar venta");
+            System.out.println("2. Funcionalidad de mostrar importe total de ventas por cliente");
+            System.out.println("3. Volver al menú anterior");
+            System.out.print("Elige una opción: ");
+
+            while (!sc.hasNextInt()) {
+                sc.nextLine();
+                System.out.print("Por favor, introduce un número válido: ");
+            }
+
+            opcion = sc.nextInt();
+            sc.nextLine();  // limpiar entrada
+
+            switch (opcion) {
+                case 1 -> {
+                    System.out.println("\nComentario sobre la funcionalidad de realizar una venta:\n");
+                    System.out.println("Esta parte ha sido una de las más complicadas de todo el proyecto.\n" +
+                            "La funcionalidad de realizar una venta incluye muchas condiciones y pasos encadenados: seleccionar cliente, mostrar productos disponibles, comprobar stock, añadir productos uno a uno...\n" +
+                            "Ha sido muy difícil conseguir que todo funcionara correctamente sin errores, sobre todo por los bucles, las validaciones y las entradas del usuario.\n" +
+                            "Pero al final, después de muchos intentos y pruebas, lo conseguí hacer funcionar y ha sido una de las funcionalidades más completas que he aprendido.");
+                }
+
+                case 2 -> {
+                    System.out.println("\nComentario sobre mostrar el importe total de ventas por cliente:\n");
+                    System.out.println("Esta parte ha sido también importante porque me obligó a entender cómo recorrer listas, filtrar por cliente y sumar los totales.\n" +
+                            "Aunque parece sencilla, tuve que prestar mucha atención para comparar correctamente objetos y evitar errores de lógica.\n" +
+                            "Me ha ayudado a mejorar en el uso de estructuras como bucles y condiciones, y a comprender mejor cómo sacar información útil del sistema.");
+                }
+
+                case 3 -> System.out.println("Volviendo al menú de comentarios...");
+                default -> System.out.println("Opción no válida. Intenta de nuevo.");
+            }
+
+        } while (opcion != 3);
+    }
+
+
+    /**
+     * Submenú de comentarios para el profesor Jordi.
+     * Permite elegir entre comentario sobre .gitignore o README.md
+     *
+     * @param sc Scanner para leer la entrada del usuario
+     */
+    static void comentariosJordi(Scanner sc) {
+        int opcion;
+
+        do {
+            System.out.println("\n--- COMENTARIOS PARA JORDI ---");
+            System.out.println("1. Aprendizaje con .gitignore");
+            System.out.println("2. Aprendizaje con README.md");
+            System.out.println("3. Volver al menú anterior");
+            System.out.print("Elige una opción: ");
+
+            while (!sc.hasNextInt()) {
+                sc.nextLine();
+                System.out.print("Por favor, introduce un número válido: ");
+            }
+
+            opcion = sc.nextInt();
+            sc.nextLine();  // limpiar entrada
+
+            switch (opcion) {
+                case 1 -> {
+                    System.out.println("\nComentario sobre .gitignore:\n");
+                    System.out.println("Me ha costado bastante trabajo configurar correctamente el archivo .gitignore en este proyecto.\n" +
+                            "Al principio no sabía exactamente qué archivos debía excluir del control de versiones, y tuve que investigar bastante para entender cómo funcionaba.\n" +
+                            "Finalmente conseguí reconocer qué archivos no eran necesarios subir a Git.\n" +
+                            "Archivos como los .class, carpetas como /out/ y archivos generados por el IDE.\n" +
+                            "Esto ha sido lo que más tiempo me ha llevado entender y realizar, habiendo sido un aprendizaje importante y ahora entiendo mejor por qué es tan útil tener un .gitignore bien hecho desde el principio.\n");
+                }
+
+                case 2 -> {
+                    System.out.println("\nComentario sobre README.md:\n");
+                    System.out.println("Me ha llevado bastante tiempo y dedicación crear un README.md claro, ordenado y útil para el proyecto.\n" +
+                            "Al principio no sabía muy bien qué información debía incluir ni cómo estructurarla correctamente.\n" +
+                            "Tuve que revisar ejemplos y buenas prácticas para entender qué es lo más importante que debe ver alguien que abre el repositorio por primera vez.\n" +
+                            "Finalmente conseguí hacer la estructura del proyecto guiándome de otros proyecto de GitHub.\n" +
+                            "Esta ha sido una parte importante del proyecto, ya que permite a otras personas comprender de forma clara y estructurada qué van a encontrar dentro del código.\n");
+                }
+
+                case 3 -> System.out.println("Volviendo al menú de comentarios...");
+                default -> System.out.println("Opción no válida. Intenta de nuevo.");
+            }
+
+        } while (opcion != 3);
     }
 
 }
